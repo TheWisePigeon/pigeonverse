@@ -3,11 +3,9 @@ package server
 import (
 	"embed"
 	"net/http"
+	"pigeonverse/handlers"
 )
 
 func RegisterRoutes(mux *http.ServeMux, fs *embed.FS) {
-	mux.Handle("GET /", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Well, hello there"))
-		return
-	}))
+	mux.Handle("GET /", handlers.RenderLandingPage(fs))
 }
