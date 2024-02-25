@@ -2,17 +2,23 @@ package main
 
 import (
 	"embed"
-	"fmt"
-	"os"
+	"log"
+	"net"
+	"net/http"
+	"pigeonverse/server"
 )
 
 //go:embed views
 var viewsFS embed.FS
 
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		panic("PORT environment variable not set")
+	server := &http.Server{
+		Addr:    net.JoinHostPort("localhost", "8080"),
+		Handler: server.NewServer(&viewsFS),
 	}
-	fmt.Println("Hello world")
+	log.Println("Server launched")
+	err := server.ListenAndServe()
+	if err != nil {
+		panic(err)
+	}
 }
