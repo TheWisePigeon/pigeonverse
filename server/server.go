@@ -1,12 +1,11 @@
 package server
 
 import (
-	"embed"
 	"net/http"
 )
 
-func NewServer(fs *embed.FS) http.Handler {
+func NewServer() http.Handler {
 	mux := http.NewServeMux()
-	RegisterRoutes(mux, fs)
+	RegisterRoutes(mux)
 	return mux
 }

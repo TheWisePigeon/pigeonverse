@@ -1,13 +1,12 @@
 package server
 
 import (
-	"embed"
 	"net/http"
 	"pigeonverse/handlers"
 )
 
-func RegisterRoutes(mux *http.ServeMux, fs *embed.FS) {
+func RegisterRoutes(mux *http.ServeMux) {
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("assets"))))
-	mux.Handle("GET /", handlers.RenderLandingPage(fs))
-	mux.Handle("GET /posts", handlers.RenderPostsPage(fs))
+	mux.Handle("GET /", handlers.RenderLandingPage())
+	mux.Handle("GET /posts", handlers.RenderPostsPage())
 }

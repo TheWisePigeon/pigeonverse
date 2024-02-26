@@ -1,20 +1,22 @@
 package main
 
 import (
-	"embed"
+	"github.com/joho/godotenv"
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"pigeonverse/server"
 )
 
-//go:embed views
-var viewsFS embed.FS
-
 func main() {
+	if err := godotenv.Load(); err != nil {
+		panic(err)
+	}
+	port := os.Getenv("PORT")
 	server := &http.Server{
-		Addr:    net.JoinHostPort("localhost", "8080"),
-		Handler: server.NewServer(&viewsFS),
+		Addr:    net.JoinHostPort("localhost", port),
+		Handler: server.NewServer(),
 	}
 	log.Println("Server launched")
 	err := server.ListenAndServe()

@@ -1,15 +1,14 @@
 package handlers
 
 import (
-	"embed"
 	"html/template"
 	"log"
 	"net/http"
 )
 
-func RenderLandingPage(fs *embed.FS) http.Handler {
+func RenderLandingPage() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		templ, err := template.ParseFS(fs, "views/base.html", "views/index.html")
+		templ, err := template.ParseFiles("views/base.html", "views/index.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
@@ -24,9 +23,9 @@ func RenderLandingPage(fs *embed.FS) http.Handler {
 	})
 }
 
-func RenderPostsPage(fs *embed.FS) http.Handler {
+func RenderPostsPage() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		templ, err := template.ParseFS(fs, "views/base.html", "views/posts.html")
+		templ, err := template.ParseFiles("views/base.html", "views/posts.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
