@@ -1,26 +1,19 @@
-{{define "home"}}
-<!DOCTYPE html>
-<html lang="en">
+{{define "main"}}
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Welcome to the Pigeonverse</title>
-  <link href="/static/output.css" rel="stylesheet">
 </head>
 
-<body class="w-full h-screen bg-black text-white flex flex-col items-center justify-center gap-2">
+<main class="w-full h-screen flex flex-col items-center justify-center gap-2">
   <a target="_blank" href="https://github.com/TheWisePigeon">
     <img class="rounded-full w-24 h-24" src="https://media.giphy.com/media/hmzZkvOJPLQti/giphy.gif" alt="">
   </a>
   <h1 class="text-2xl lg:text-3xl text-center">Hey, I'm Joseph - Software Developer</h1>
   <div class="flex gap-5">
     <a class="text-xl lg:text-2xl underline" target="_blank" href="https://github.com/TheWisePigeon">GitHub</a>
-    <a class="text-xl lg:text-2xl underline" target="_blank" href="/posts">Blog</a>
-    <a class="text-xl lg:text-2xl underline" target="_blank" href="/cv">CV</a>
-    <a class="text-xl lg:text-2xl underline" target="_blank" href="/projects">Projects</a>
+    <a class="text-xl lg:text-2xl underline" href="/posts">Blog</a>
+    <a class="text-xl lg:text-2xl underline" href="/cv">CV</a>
+    <a class="text-xl lg:text-2xl underline" href="/projects">Projects</a>
   </div>
-</body>
-
-</html>
+</main>
 {{end}}
