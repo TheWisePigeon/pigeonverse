@@ -5,8 +5,16 @@
 <head>
   <title>Pigeonverse | Posts</title>
 </head>
-<main>
-  <h1 class="text-4xl">Posts</h1>
+<main class="mx-auto w-full lg:w-[50%] p-2 ">
+  <h1 class="text-4xl pb-10">Posts</h1>
+  <div class="flex flex-col gap-5">
+    {{range .Posts}}
+    <div class="flex flex-col">
+      <a class="hover:underline font-bold" href="/posts/{{.Slug}}">{{.Title}}</a>
+      <h1 class="text-sm text-gray-500 italic">Posted {{.PostedAt}}</h1>
+    </div>
+    {{end}}
+  </div>
 </main>
 
 </html>
