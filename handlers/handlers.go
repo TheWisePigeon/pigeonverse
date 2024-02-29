@@ -79,12 +79,19 @@ func RenderPostsPage(contentDir string) http.Handler {
 
 func RenderPost(contentDir string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    postData := PostData{}
+		postData := PostData{}
 		slug := r.PathValue("slug")
 		postFilePath := filepath.Join(contentDir, fmt.Sprintf("%s.md", slug))
 		_, err := os.Stat(postFilePath)
 		if os.IsNotExist(err) {
-			w.WriteHeader(http.StatusNotFound)
+			fmt.Println("came here")
+			templ, err := template.ParseFiles("views/base.html", "views/post_not_found.html")
+			if err != nil {
+				log.Println("Error while parsing templates: ", err)
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
+			templ.ExecuteTemplate(w, "base", nil)
 			return
 		}
 		frontmatter, postBody, err := helpers.ExtractFrontmatter(postFilePath)
@@ -93,7 +100,7 @@ func RenderPost(contentDir string) http.Handler {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-    postData.Frontmatter = *frontmatter
+		postData.Frontmatter = *frontmatter
 		htmlContent := blackfriday.MarkdownCommon([]byte(postBody))
 		templ, err := template.ParseFiles("views/base.html", "views/post.html")
 		if err != nil {
@@ -101,7 +108,7 @@ func RenderPost(contentDir string) http.Handler {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-    postData.Content = template.HTML(htmlContent)
+		postData.Content = template.HTML(htmlContent)
 		err = templ.ExecuteTemplate(w, "base", postData)
 		if err != nil {
 			log.Println("Error while executing template: ", err.Error())
