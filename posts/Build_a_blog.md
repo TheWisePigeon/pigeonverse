@@ -1,5 +1,8 @@
 ---
-title: Build your blog using only Golang
+Title: Build a blog
+PostedAt: 29 02 2024
+Slug: Build_a_blog
+TLDR: Learn how to build a blog using Golang
 ---
 
 # Hello this is a great title

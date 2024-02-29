@@ -1,17 +1,57 @@
 package handlers
 
 import (
+	"bufio"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
-type PostInfo struct {
+type PostData struct {
 	Title    string `json:"title"`
 	PostedAt string `json:"posted_at"`
 	Slug     string `json:"slug"`
+	TLDR     string `json:"tldr"`
+}
+
+func getPostsData() ([]PostData, error) {
+	contentDir := os.Getenv("CONTENT_DIR")
+	entries, err := os.ReadDir(contentDir)
+	data := []PostData{}
+	if err != nil {
+		return data, fmt.Errorf("Error while reading content dir: %w", err)
+	}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		file, err := os.Open(filepath.Join(contentDir, entry.Name()))
+		if err != nil {
+			return data, fmt.Errorf("Error while opening mardkdown file: %w", err)
+		}
+		defer file.Close()
+		scanner := bufio.NewScanner(file)
+		newPostInfo := PostData{}
+		for i := 0; i < 6 && scanner.Scan(); i++ {
+			parts := strings.SplitN(scanner.Text(), " ", 2)
+			switch i {
+			case 1:
+				newPostInfo.Title = parts[1]
+			case 2:
+				newPostInfo.PostedAt = parts[1]
+			case 3:
+				newPostInfo.Slug = parts[1]
+			case 4:
+				newPostInfo.PostedAt = parts[1]
+			}
+		}
+		data = append(data, newPostInfo)
+	}
+	return data, nil
 }
 
 func RenderLandingPage() http.Handler {
@@ -33,25 +73,13 @@ func RenderLandingPage() http.Handler {
 
 func RenderPostsPage() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		postsData := []PostInfo{}
-		entry, err := os.ReadDir(os.Getenv("CONTENT_DIR"))
+		data, err := getPostsData()
 		if err != nil {
-			log.Println("Error while reading content dir:", err.Error())
+			log.Println("Error while reading frontmatterd data", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		for _, file := range entry {
-			slug := strings.TrimSuffix(file.Name(), ".md")
-			parts := strings.Split(slug, "-")
-			title := strings.ReplaceAll(parts[0], "_", " ")
-			postedAt := strings.ReplaceAll(parts[1], "_", " ")
-			postData := PostInfo{
-				Title:    title,
-				PostedAt: postedAt,
-				Slug:     slug,
-			}
-			postsData = append(postsData, postData)
-		}
+		fmt.Println(data)
 		templ, err := template.ParseFiles("views/base.html", "views/posts.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())
@@ -59,7 +87,7 @@ func RenderPostsPage() http.Handler {
 			return
 		}
 		templData := map[string]interface{}{
-			"Posts": postsData,
+			"Posts": data,
 		}
 		err = templ.ExecuteTemplate(w, "base", templData)
 		if err != nil {
