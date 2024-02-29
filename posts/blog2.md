@@ -1,6 +1,6 @@
 ---
-Title: Blog 2
-PostedAt: 29 02 2024
-Slug: Blog_2
-TLDR: Too long didn't read
+title: Blog 2
+posted_at: 29 02 2024
+slug: Blog_2
+tldr: Too long didn't read
 ---

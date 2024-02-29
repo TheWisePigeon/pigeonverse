@@ -1,57 +1,25 @@
 package handlers
 
 import (
-	"bufio"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
+	"pigeonverse/helpers"
+	"github.com/russross/blackfriday"
 )
 
 type PostData struct {
-	Title    string 
-	PostedAt string 
-	Slug     string 
-	TLDR     string 
+	Title    string
+	PostedAt string
+	Slug     string
+	TLDR     string
 }
 
-func getPostsData() ([]PostData, error) {
-	contentDir := os.Getenv("CONTENT_DIR")
-	entries, err := os.ReadDir(contentDir)
-	data := []PostData{}
-	if err != nil {
-		return data, fmt.Errorf("Error while reading content dir: %w", err)
-	}
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-		file, err := os.Open(filepath.Join(contentDir, entry.Name()))
-		if err != nil {
-			return data, fmt.Errorf("Error while opening mardkdown file: %w", err)
-		}
-		defer file.Close()
-		scanner := bufio.NewScanner(file)
-		newPostInfo := PostData{}
-		for i := 0; i < 6 && scanner.Scan(); i++ {
-			parts := strings.SplitN(scanner.Text(), " ", 2)
-			switch i {
-			case 1:
-				newPostInfo.Title = parts[1]
-			case 2:
-				newPostInfo.PostedAt = parts[1]
-			case 3:
-				newPostInfo.Slug = parts[1]
-			case 4:
-				newPostInfo.TLDR = parts[1]
-			}
-		}
-		data = append(data, newPostInfo)
-	}
-	return data, nil
+type PostContent struct {
+	Content template.HTML
 }
 
 func RenderLandingPage() http.Handler {
@@ -71,11 +39,29 @@ func RenderLandingPage() http.Handler {
 	})
 }
 
-func RenderPostsPage() http.Handler {
+func RenderPostsPage(contentDir string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		data, err := getPostsData()
+		entries, err := os.ReadDir(contentDir)
 		if err != nil {
-			log.Println("Error while reading frontmatterd data", err.Error())
+			log.Println("Error while reading content dir: ", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		data := []helpers.Frontmatter{}
+		for _, entry := range entries {
+			if entry.IsDir() {
+				continue
+			}
+			filePath := filepath.Join(contentDir, entry.Name())
+			postFrontmatter, err := helpers.ExtractFrontmatter(filePath)
+			if err != nil {
+				log.Println("Error while reading post frontmatter: ", err)
+				return
+			}
+			data = append(data, *postFrontmatter)
+		}
+		if err != nil {
+			log.Println("Error while reading frontmatterd data", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -92,6 +78,40 @@ func RenderPostsPage() http.Handler {
 		if err != nil {
 			log.Println("Error while rendering posts page", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	})
+}
+
+func RenderPost(contentDir string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		slug := r.PathValue("slug")
+		postFilePath := filepath.Join(contentDir, fmt.Sprintf("%s.md", slug))
+		fmt.Println(postFilePath)
+		_, err := os.Stat(postFilePath)
+		if os.IsNotExist(err) {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		mdContent, err := os.ReadFile(postFilePath)
+		if err != nil {
+			log.Println("Error while opening post file: ", err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		htmlContent := blackfriday.MarkdownCommon(mdContent)
+		templ, err := template.ParseFiles("views/base.html", "views/post.html")
+		if err != nil {
+			log.Println("Error while parsing template: ", err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		data := &PostContent{
+			Content: template.HTML(htmlContent),
+		}
+		err = templ.ExecuteTemplate(w, "base", data)
+		if err != nil {
+			log.Println("Error while executing template: ", err.Error())
 			return
 		}
 	})
