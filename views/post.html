@@ -14,7 +14,7 @@
 
 <body style="background-color: black; color: white;">
   <main class="main-container">
-    <a href="/posts" class="back-link">Back to blog page</a>
+    <a href="/posts">Back to blog page</a>
     <div class="flex-container">
       <h1>{{.Title}}</h1>
       <h2 style="font-size: 1rem; font-style: italic; color: #718096;">{{.TLDR}}</h2>
@@ -22,6 +22,7 @@
     <div class="markdown-body">
       {{.Content}}
     </div>
+    <a href="/posts" class="back-link">Back to blog page</a>
   </main>
 
 </body>
