@@ -14,20 +14,20 @@ type Frontmatter struct {
 	TLDR     string `yaml:"tldr"`
 }
 
-func ExtractFrontmatter(filePath string) (*Frontmatter, error) {
+func ExtractFrontmatter(filePath string) (*Frontmatter, string, error) {
 	frontmatter := new(Frontmatter)
 	content, err := os.ReadFile(filePath)
 	if err != nil {
-		return frontmatter, fmt.Errorf("Error while reading file: %w", err)
+		return frontmatter, "", fmt.Errorf("Error while reading file: %w", err)
 	}
 	parts := strings.SplitN(string(content), "---", 3)
 	if len(parts) < 3 {
-		return frontmatter, fmt.Errorf("Error while extracting frontmatter")
+		return frontmatter, "", fmt.Errorf("Error while extracting frontmatter")
 	}
 	frontmatterContent := parts[1]
 	err = yaml.Unmarshal([]byte(frontmatterContent), frontmatter)
 	if err != nil {
-		return frontmatter, fmt.Errorf("Error while unmarshalling frontmatter: %w", err)
+		return frontmatter, "", fmt.Errorf("Error while unmarshalling frontmatter: %w", err)
 	}
-	return frontmatter, nil
+	return frontmatter, parts[2], nil
 }
