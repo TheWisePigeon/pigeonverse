@@ -10,3 +10,4 @@ tmp
 node_modules
 assets/output.css
 .env
+app

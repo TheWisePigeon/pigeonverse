@@ -6,12 +6,16 @@
   <title>Pigeonverse | Posts</title>
 </head>
 <main class="mx-auto w-full lg:w-[50%] p-2 ">
-  <h1 class="text-4xl pb-10">Welcome to my blog :)</h1>
+  <div class="pb-10 flex flex-col gap-2">
+    <h1 class="text-4xl ">Welcome to my blog :)</h1>
+    <a class="underline" href="/">Back to home page</a>
+  </div>
   <div class="flex flex-col gap-5">
     {{range .Posts}}
     <div class="flex flex-col">
       <a class="hover:underline font-bold" href="/posts/{{.Slug}}">{{.Title}}</a>
-      <h1 class="text-sm text-gray-500 italic">Posted {{.PostedAt}}</h1>
+      <h1 class="text-sm text-gray-500 italic">Posted on {{.PostedAt}}</h1>
+      <h1 class="text-sm text-gray-500 italic">{{.TLDR}}</h1>
     </div>
     {{end}}
   </div>

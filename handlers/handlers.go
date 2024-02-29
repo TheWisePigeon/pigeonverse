@@ -12,10 +12,10 @@ import (
 )
 
 type PostData struct {
-	Title    string `json:"title"`
-	PostedAt string `json:"posted_at"`
-	Slug     string `json:"slug"`
-	TLDR     string `json:"tldr"`
+	Title    string 
+	PostedAt string 
+	Slug     string 
+	TLDR     string 
 }
 
 func getPostsData() ([]PostData, error) {
@@ -46,7 +46,7 @@ func getPostsData() ([]PostData, error) {
 			case 3:
 				newPostInfo.Slug = parts[1]
 			case 4:
-				newPostInfo.PostedAt = parts[1]
+				newPostInfo.TLDR = parts[1]
 			}
 		}
 		data = append(data, newPostInfo)
