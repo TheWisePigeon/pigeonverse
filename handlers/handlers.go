@@ -79,7 +79,6 @@ func RenderPostsPage() http.Handler {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(data)
 		templ, err := template.ParseFiles("views/base.html", "views/posts.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())

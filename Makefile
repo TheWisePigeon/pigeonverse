@@ -1,5 +1,5 @@
 build:
-	@go build -o restdis main.go
+	@go build -o app main.go
 
 install-deps:
 	@go mod download
