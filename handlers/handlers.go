@@ -84,7 +84,6 @@ func RenderPost(contentDir string) http.Handler {
 		postFilePath := filepath.Join(contentDir, fmt.Sprintf("%s.md", slug))
 		_, err := os.Stat(postFilePath)
 		if os.IsNotExist(err) {
-			fmt.Println("came here")
 			templ, err := template.ParseFiles("views/base.html", "views/post_not_found.html")
 			if err != nil {
 				log.Println("Error while parsing templates: ", err)
