@@ -1,19 +1,30 @@
 {{define "main"}}
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
   <link rel="stylesheet" href="/static/dracula.css">
+  <link rel="stylesheet" href="/static/styles.css">
   <title>{{.Title}} | Pigeonverse blog</title>
 </head>
-<main class="mx-auto w-full lg:w-[50%] p-2 ">
-  <a class="underline " href="/posts">Back to blog page</a>
-  <div class="flex flex-col py-10">
-    <h1 class="text-2xl font-bold">{{.Title}}</h1>
-    <h1 class="italic text-gray-500">{{.TLDR}}</h1>
-  </div>
-  <article class="markdown-body">
-    {{.Content}}
-  </article>
-</main>
+
+<body style="background-color: black; color: white;">
+  <main class="main-container">
+    <a href="/posts" class="back-link">Back to blog page</a>
+    <div class="flex-container">
+      <h1>{{.Title}}</h1>
+      <h2 style="font-size: 1rem; font-style: italic; color: #718096;">{{.TLDR}}</h2>
+    </div>
+    <div class="markdown-body">
+      {{.Content}}
+    </div>
+  </main>
+
+</body>
+
+</html>
 {{end}}

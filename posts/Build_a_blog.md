@@ -6,7 +6,9 @@ tldr: Learn how you can build a simple blog using golang and the html/template l
 ---
 
 # Hello this is a great title
+## This should be smaller
 So this is a post about how to write a blog using the goofyest language on planet earth
+
 
 ```go
 package main

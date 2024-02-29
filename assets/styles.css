@@ -1,0 +1,41 @@
+a {
+  color: white;
+  text-decoration: underline;
+}
+
+.main-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding: 0.5rem;
+}
+
+@media (max-width: 780px) {
+    .main-container {
+        width: 100%;
+    }
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2.5rem;
+}
+
+.flex-container h1.text-2xl.font-bold {
+    font-size: 1.5rem; /* Equivalent to Tailwind text-2xl */
+    font-weight: bold; /* Equivalent to Tailwind font-bold */
+}
+
+.flex-container h1.italic.text-gray-500 {
+    font-style: italic; /* Equivalent to Tailwind italic */
+    color: #718096; /* Equivalent to Tailwind text-gray-500 */
+}
+
+.markdown-body code {
+    font-size: 1.2em; /* Adjust the value as needed */
+}
+
+.flex-container h1 {
+    margin-bottom: 0.01rem; /* Adjust the value as needed */
+}

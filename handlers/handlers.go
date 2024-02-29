@@ -21,7 +21,7 @@ func RenderLandingPage() http.Handler {
 		templ, err := template.ParseFiles("views/base.html", "views/index.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 		err = templ.ExecuteTemplate(w, "base", nil)
@@ -38,7 +38,7 @@ func RenderPostsPage(contentDir string) http.Handler {
 		entries, err := os.ReadDir(contentDir)
 		if err != nil {
 			log.Println("Error while reading content dir: ", err)
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 		data := []helpers.Frontmatter{}
@@ -50,19 +50,20 @@ func RenderPostsPage(contentDir string) http.Handler {
 			postFrontmatter, _, err := helpers.ExtractFrontmatter(filePath)
 			if err != nil {
 				log.Println("Error while reading post frontmatter: ", err)
+				http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 				return
 			}
 			data = append(data, *postFrontmatter)
 		}
 		if err != nil {
 			log.Println("Error while reading frontmatter data", err)
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 		templ, err := template.ParseFiles("views/base.html", "views/posts.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 		templData := map[string]interface{}{
@@ -71,7 +72,7 @@ func RenderPostsPage(contentDir string) http.Handler {
 		err = templ.ExecuteTemplate(w, "base", templData)
 		if err != nil {
 			log.Println("Error while rendering posts page", err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 	})
@@ -87,7 +88,7 @@ func RenderPost(contentDir string) http.Handler {
 			templ, err := template.ParseFiles("views/base.html", "views/post_not_found.html")
 			if err != nil {
 				log.Println("Error while parsing templates: ", err)
-				w.WriteHeader(http.StatusInternalServerError)
+				http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 				return
 			}
 			templ.ExecuteTemplate(w, "base", nil)
@@ -96,21 +97,22 @@ func RenderPost(contentDir string) http.Handler {
 		frontmatter, postBody, err := helpers.ExtractFrontmatter(postFilePath)
 		if err != nil {
 			log.Println("Error while extracting frontmatter: ", err)
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 		postData.Frontmatter = *frontmatter
 		htmlContent := blackfriday.MarkdownCommon([]byte(postBody))
-		templ, err := template.ParseFiles("views/base.html", "views/post.html")
+		templ, err := template.ParseFiles("views/post.html")
 		if err != nil {
 			log.Println("Error while parsing template: ", err.Error())
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 		postData.Content = template.HTML(htmlContent)
-		err = templ.ExecuteTemplate(w, "base", postData)
+		err = templ.ExecuteTemplate(w, "main", postData)
 		if err != nil {
 			log.Println("Error while executing template: ", err.Error())
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
 	})
