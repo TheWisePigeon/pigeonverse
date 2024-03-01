@@ -111,9 +111,28 @@ func RenderPost(contentDir string) http.Handler {
 		postData.Content = template.HTML(htmlContent)
 		err = templ.ExecuteTemplate(w, "main", postData)
 		if err != nil {
-			log.Println("Error while executing template: ", err.Error())
+			log.Println("Error while executing template: ", err)
 			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
+	})
+}
+
+func RenderCV() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		filePath := ""
+		templ, err := template.ParseFiles(filePath)
+		if err != nil {
+			log.Println("Error while parsing CV:", err)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+			return
+		}
+		err = templ.Execute(w, nil)
+		if err != nil {
+			log.Println("Error while rendering CV:", err)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+			return
+		}
+		return
 	})
 }
