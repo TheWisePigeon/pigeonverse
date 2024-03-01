@@ -10,17 +10,17 @@
   </div>
   <div class="flex flex-col gap-5">
     {{range .Projects}}
-    <div class="flex flex-col border-b border-white border-dotted p-2">
+    <div class="flex flex-col border-b border-white border-dotted pb-2">
       <h1 class="font-bold">{{.Name}} - {{.Description}}</h1>
-      <div>
+      <div class="flex divide-x ">
         {{range .TechStack}}
-        <span>{{.}}</span>
+        <span class="px-2">{{.}}</span>
         {{end}}
       </div>
-      <a class="underline" target="_blank" href="{{.Github}}">Github repo</a>
+      <a class="underline pl-2" target="_blank" href="{{.Github}}">Github repo</a>
       {{if eq .LiveDemo ""}}
       {{else}}
-      <a class="underline" target="_blank" href="{{.LiveDemo}}">Check it out live</a>
+      <a class="underline pl-2" target="_blank" href="{{.LiveDemo}}">Check it out live</a>
       {{end}}
     </div>
     {{end}}
