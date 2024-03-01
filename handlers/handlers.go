@@ -11,6 +11,76 @@ import (
 	"pigeonverse/helpers"
 )
 
+type Project struct {
+	Name        string
+	Description string
+	TechStack   []string
+	Github      string
+	LiveDemo    string
+	Finished    bool
+}
+
+var (
+	projects = []Project{
+		{
+			Name:        "Yoot",
+			Description: "Minimalist CMS designed for simplicity and ease of use",
+			TechStack:   []string{"Sveltekit", "TypeScript", "Postgres"},
+			Github:      "https://github.com/TheWisePigeon/yoot",
+			LiveDemo:    "",
+			Finished:    true,
+		},
+		{
+			Name:        "Certus",
+			Description: "HTTP test runner",
+			TechStack:   []string{"Rust"},
+			Github:      "https://github.com/TheWisePigeon/certus",
+			LiveDemo:    "",
+			Finished:    true,
+		},
+		{
+			Name:        "Visio",
+			Description: " Cloud based service that provides face detection and recognition ",
+			TechStack:   []string{"Go", "Postgres", "Redis", "Docker"},
+			Github:      "https://github.com/TheWisePigeon/visio",
+			LiveDemo:    "https://visio-beta.onrender.com",
+			Finished:    false,
+		},
+		{
+			Name:        "Restdis",
+			Description: "Postgrest equivalent for Redis",
+			TechStack:   []string{"Go", "SQLite", "Docker"},
+			Github:      "https://github.com/TheWisePigeon/restdis",
+			LiveDemo:    "",
+			Finished:    false,
+		},
+		{
+			Name:        "SQL to TypeScript",
+			Description: "Convert your SQL tables into typescript types",
+			TechStack:   []string{"Go"},
+			Github:      "https://github.com/TheWisePigeon/sql-to-typescript",
+			LiveDemo:    "",
+			Finished:    true,
+		},
+		{
+			Name:        "Rex",
+			Description: "ExpressJS project scaffolder",
+			TechStack:   []string{"Rust"},
+			Github:      "https://github.com/TheWisePigeon/rex",
+			LiveDemo:    "",
+			Finished:    true,
+		},
+		{
+			Name:        "Tabula",
+			Description: "Your place to organize your tasks with ease ",
+			TechStack:   []string{"Sveltekit", "TypeScript"},
+			Github:      "https://github.com/TheWisePigeon/tabula",
+			LiveDemo:    "https://tabula.lol",
+			Finished:    true,
+		},
+	}
+)
+
 type PostData struct {
 	helpers.Frontmatter
 	Content template.HTML
@@ -118,21 +188,22 @@ func RenderPost(contentDir string) http.Handler {
 	})
 }
 
-func RenderCV() http.Handler {
+func RenderProjectsPage() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		filePath := ""
-		templ, err := template.ParseFiles(filePath)
+		templ, err := template.ParseFiles("views/base.html", "views/projects.html")
 		if err != nil {
-			log.Println("Error while parsing CV:", err)
+			log.Println("Error while parsiong templates:", err)
 			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
-		err = templ.Execute(w, nil)
+		projectsData := map[string][]Project{
+			"Projects": projects,
+		}
+		err = templ.ExecuteTemplate(w, "base", projectsData)
 		if err != nil {
-			log.Println("Error while rendering CV:", err)
+			log.Println("Error while rendering projects page:", err)
 			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 			return
 		}
-		return
 	})
 }
