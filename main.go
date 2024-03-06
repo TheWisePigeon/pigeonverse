@@ -10,12 +10,14 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		panic(err)
-	}
+  if os.Getenv("ENV") != "PROD"{
+    if err := godotenv.Load(); err != nil {
+      panic(err)
+    }
+  }
 	port := os.Getenv("PORT")
 	server := &http.Server{
-		Addr:    net.JoinHostPort("localhost", port),
+		Addr:    net.JoinHostPort("0.0.0.0", port),
 		Handler: server.NewServer(),
 	}
 	log.Println("Server launched")
