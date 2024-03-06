@@ -126,11 +126,6 @@ func RenderPostsPage(contentDir string) http.Handler {
 			}
 			data = append(data, *postFrontmatter)
 		}
-		if err != nil {
-			log.Println("Error while reading frontmatter data", err)
-			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-			return
-		}
 		templ, err := template.ParseFiles("views/base.html", "views/posts.html")
 		if err != nil {
 			log.Println("Error while parsing template", err.Error())
