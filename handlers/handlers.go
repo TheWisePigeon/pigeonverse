@@ -2,17 +2,18 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/russross/blackfriday"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"pigeonverse/helpers"
+	"github.com/russross/blackfriday"
 )
 
 type Project struct {
 	Name        string
+
 	Description string
 	TechStack   []string
 	Github      string
@@ -40,7 +41,7 @@ var (
 		},
 		{
 			Name:        "Visio",
-			Description: " Cloud based service that provides face detection and recognition ",
+			Description: "Cloud based service that provides face detection and recognition ",
 			TechStack:   []string{"Go", "Postgres", "Redis", "Docker"},
 			Github:      "https://github.com/TheWisePigeon/visio",
 			LiveDemo:    "https://visio-beta.onrender.com",
