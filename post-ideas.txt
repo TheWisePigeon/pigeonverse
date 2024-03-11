@@ -3,3 +3,4 @@ Write blog with Golang
 Tabula
 Write to learn
 Golang JSON introduction
+Python for loop performance
