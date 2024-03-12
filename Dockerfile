@@ -11,7 +11,7 @@ WORKDIR /usr/local/bin
 COPY --from=builder /app /usr/local/bin/app
 COPY views /usr/local/bin/views
 RUN mkdir assets
-COPY assets/dracula.css /usr/local/bin/assets/dracula.css
+COPY assets/dracula.min.css /usr/local/bin/assets/dracula.css
 COPY assets/output.css /usr/local/bin/assets/output.css
 COPY assets/styles.css /usr/local/bin/assets/styles.css
 COPY posts /usr/local/bin/posts
