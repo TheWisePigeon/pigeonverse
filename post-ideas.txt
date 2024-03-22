@@ -4,3 +4,5 @@ Tabula
 Write to learn
 Golang JSON introduction
 Python for loop performance
+Running tests in parallel in Golang
+Linker flags in Golang

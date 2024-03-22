@@ -10,11 +10,11 @@ import (
 )
 
 func main() {
-  if os.Getenv("ENV") != "PROD"{
-    if err := godotenv.Load(); err != nil {
-      panic(err)
-    }
-  }
+	if os.Getenv("ENV") != "PROD" {
+		if err := godotenv.Load(); err != nil {
+			panic(err)
+		}
+	}
 	port := os.Getenv("PORT")
 	server := &http.Server{
 		Addr:    net.JoinHostPort("0.0.0.0", port),
