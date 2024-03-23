@@ -2,17 +2,17 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/russross/blackfriday"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"pigeonverse/helpers"
-	"github.com/russross/blackfriday"
 )
 
 type Project struct {
-	Name        string
+	Name string
 
 	Description string
 	TechStack   []string
@@ -23,6 +23,14 @@ type Project struct {
 
 var (
 	projects = []Project{
+		{
+			Name:        "Goo",
+			Description: "Command runner daemon",
+			TechStack:   []string{"Go", "SQLite"},
+			Github:      "https://github.com/TheWisePigeon/goo",
+			LiveDemo:    "",
+			Finished:    true,
+		},
 		{
 			Name:        "Yoot",
 			Description: "Minimalist CMS designed for simplicity and ease of use",
