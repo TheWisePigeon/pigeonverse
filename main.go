@@ -20,7 +20,7 @@ func main() {
 		Addr:    net.JoinHostPort("0.0.0.0", port),
 		Handler: server.NewServer(),
 	}
-	log.Println("Server launched")
+  log.Println("Server launched on port:", port)
 	err := server.ListenAndServe()
 	if err != nil {
 		panic(err)
