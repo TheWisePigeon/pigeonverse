@@ -7,6 +7,7 @@ Python for loop performance
 Running tests in parallel in Golang
 Linker flags in Golang
 postgres LISTEN/NOTIFY
+The opportunity to think differently
 
 Written:
 Golang JSON customization 
