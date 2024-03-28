@@ -1,13 +1,18 @@
-To write:
-AlpineJS docker can't run binary
-Write blog with Golang
-Tabula
-Write to learn
-Python for loop performance
-Running tests in parallel in Golang
-Linker flags in Golang
-postgres LISTEN/NOTIFY
-The opportunity to think differently
+To write {
+  AlpineJS docker can't run binary
+  Write blog with Golang
+  Tabula
+  Write to learn
+  Python for loop performance
+  Running tests in parallel in Golang
+  Linker flags in Golang
+  postgres LISTEN/NOTIFY
+  The opportunity to think differently
+  My case against learning with youtube tutorials
+  My case against the Fullstack talk
+  My case against pragmatism
+}
+
 
 Written:
 Golang JSON customization 
