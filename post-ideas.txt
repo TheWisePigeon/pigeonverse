@@ -11,6 +11,8 @@ To write {
   My case against learning with youtube tutorials
   My case against the Fullstack talk
   My case against pragmatism
+  The Elm architecture is brillant
+  Interpreting memory: Array VS List
 }
 
 
