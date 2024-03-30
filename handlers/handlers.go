@@ -24,18 +24,16 @@ type Project struct {
 var (
 	projects = []Project{
 		{
+			Name:        "SQL Hagman",
+			Description: "Terminal hangman game but all the logic is written in SQL",
+			TechStack:   []string{"SQL", "Go", "Postgres"},
+			Github:      "https://github.com/TheWisePigeon/sql_hangman",
+		},
+		{
 			Name:        "Goo",
 			Description: "Command runner daemon",
 			TechStack:   []string{"Go", "SQLite"},
 			Github:      "https://github.com/TheWisePigeon/goo",
-			LiveDemo:    "",
-			Finished:    true,
-		},
-		{
-			Name:        "Yoot",
-			Description: "Minimalist CMS designed for simplicity and ease of use",
-			TechStack:   []string{"Sveltekit", "TypeScript", "Postgres"},
-			Github:      "https://github.com/TheWisePigeon/yoot",
 			LiveDemo:    "",
 			Finished:    true,
 		},

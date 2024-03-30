@@ -13,6 +13,7 @@ To write {
   My case against pragmatism
   The Elm architecture is brillant
   Interpreting memory: Array VS List
+  Leaving the web behind
 }
 
 
