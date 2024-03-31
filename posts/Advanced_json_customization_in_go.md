@@ -3,6 +3,7 @@ title: Advanced JSON customization in Go
 posted_at: 25 03 2024
 slug: Advanced_json_customization_in_go
 tldr: Learn how you can use the Marshaler and Unmarshaler interfaces to customize encoding and decoding JSON
+draft: false
 ---
 
 Go interfaces are awesome, in this article I will show you how you can use the json.Marshaler and json.Unmarshaler interfaces to customize 

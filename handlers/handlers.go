@@ -130,7 +130,9 @@ func RenderPostsPage(contentDir string) http.Handler {
 				http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 				return
 			}
-			data = append(data, *postFrontmatter)
+			if !postFrontmatter.Draft {
+        data = append(data, *postFrontmatter)
+			}
 		}
 		templ, err := template.ParseFiles("views/base.html", "views/posts.html")
 		if err != nil {

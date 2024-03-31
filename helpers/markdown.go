@@ -12,6 +12,7 @@ type Frontmatter struct {
 	Slug     string `yaml:"slug"`
 	PostedAt string `yaml:"posted_at"`
 	TLDR     string `yaml:"tldr"`
+	Draft    bool   `yaml:"draft"`
 }
 
 func ExtractFrontmatter(filePath string) (*Frontmatter, string, error) {

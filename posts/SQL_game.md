@@ -3,6 +3,7 @@ title: Writing a game with SQL (and Go)
 posted_at: 30 03 2024
 slug: SQL_game
 tldr: An article going through how I made a hangman terminal game but all the game logic is written in SQL and handled by Postgres
+draft: true
 ---
 
 So, last week I watched [this video](https://youtu.be/9a_O3QHLajw?si=V2QBo6MTamnDLZpw) and I thought to myself "dangg, this is crazy".
@@ -45,4 +46,4 @@ type GameModel struct {
 	db              *sql.DB //A connection pool to the database
 }
 ```
-If it doesn't already, this will make more sense as we go. We are using
+If it doesn't already, this will make more sense as we go.
